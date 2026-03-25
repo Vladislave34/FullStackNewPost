@@ -7,9 +7,8 @@ class City(models.Model):
     name = models.CharField(max_length=250, blank=False)
     description = models.TextField(max_length=4000, null=True, blank=True)
 
-    class Neta:
-        db_table = "tblCities"
-        ordering = ['name']
+    class Meta:
+        pass
 
     def __str__(self):
         return self.name
