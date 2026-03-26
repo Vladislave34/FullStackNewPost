@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type ICity from "../Models/ICity.ts";
 import API_ENV from "../env/index.ts";
+import {serialize} from "object-to-formdata";
 // import {serialize} from "object-to-formdata";
 
 
@@ -16,33 +17,44 @@ export const cityApi = createApi({
             query: ()=>({
                 url: "cities",
                 method: "GET"
-            })
+            }),
+            providesTags: ["City"]
+        }),
+        fetchCityById: build.query<ICity, number>({
+            query: (id)=>({
+                url: `cities/${id}/`,
+                method: "GET"
+            }),
+            providesTags: ["City"]
         }),
         addCity: build.mutation<void, Omit<ICity, "id">>({
             query: (model)=>{
-                // const data = serialize(model);
+                const data = serialize(model);
                 return{
-                    url: "cities",
+                    url: "cities/",
                     method: "POST",
-                    body: {
-                        "name": model.name,
-                        "description": model.description
-                    },
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    body: data
                 }
             },
             invalidatesTags: ["City"]
         }),
         updateCity: build.mutation<void, ICity>({
             query: (model)=>{
+                const data = serialize<Omit<ICity, "id">>(model);
                 return{
-                    url: "cities",
+                    url: `cities/${model.id}/`,
                     method: "PUT",
-                    body: model
+                    body: data,
                 }
-            }
+            },
+            invalidatesTags: ["City"]
+        }),
+        deleteCity: build.mutation<void, number>({
+            query: (id)=>({
+                url: `cities/${id}/`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ['City']
         })
     })
 })

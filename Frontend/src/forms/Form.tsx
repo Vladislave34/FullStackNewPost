@@ -5,13 +5,14 @@ import {
 
 } from "formik";
 import * as Yup from "yup";
-import type {ReactElement} from "react";
+import type {ReactElement, ReactNode} from "react";
 
 interface UniversalFormProps<T extends FormikValues> {
     initialValues: T;
-    validationSchema: Yup.ObjectSchema<T>;
+    validationSchema: Yup.AnyObjectSchema;
     onSubmit: (values: T) => void;
-    children: ReactElement | ReactElement[];
+    // children: ReactElement | ReactElement[];
+    children: ReactNode;
     title?: string;
 }
 

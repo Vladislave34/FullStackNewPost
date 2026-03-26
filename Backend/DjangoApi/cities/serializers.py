@@ -3,6 +3,7 @@ from .models import City
 
 
 class CitySerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(required=False)
     class Meta:
         model = City
-        fields = ['id', 'name', 'description']
+        fields = ['id', 'name', 'description', "image"]
